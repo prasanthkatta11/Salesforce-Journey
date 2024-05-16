@@ -1,0 +1,25 @@
+<template>
+  <lightning-card title="Navigation Demo">
+    <div class="slds-var-p-around_medium">
+      <lightning-button
+        label="Go to Home Page"
+        variant="brand"
+        onclick={handleNavigateToHome}
+      ></lightning-button>
+    </div>
+    <div class="slds-var-p-around_medium">
+      <lightning-button
+        label="Go to Account List View"
+        variant="brand"
+        onclick={handleNavigateToListView}
+      ></lightning-button>
+    </div>
+    <div class="slds-var-p-around_medium">
+      <lightning-button
+        label="Go to new Account"
+        variant="brand"
+        onclick={handleNavigateToNewAccount}
+      ></lightning-button>
+    </div>
+  </lightning-card>
+</template>

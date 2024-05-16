@@ -1,0 +1,144 @@
+<template>
+  <div class="slds-form-element">
+    <label
+      class="slds-form-element__label"
+      for="combobox-id-3"
+      id="combobox-label-id-34"
+      >{objectLabel}</label
+    >
+    <div class="slds-form-element__control">
+      <div class="slds-combobox_container">
+        <div
+          class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+        >
+          <template lwc:if={isRecordSelected}>
+            <!--display when the value is selected-->
+            <div
+              class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right"
+              role="none"
+            >
+              <span
+                class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon"
+                title="Account"
+              >
+                <lightning-icon
+                  size="small"
+                  icon-name={iconName}
+                ></lightning-icon>
+                <span class="slds-assistive-text">Account</span>
+              </span>
+              <div
+                role="combobox"
+                tabindex="0"
+                class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                aria-labelledby="combobox-label-id-33 combobox-id-5-selected-value"
+                id="combobox-id-5-selected-value"
+                aria-controls="listbox-id-5"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+              >
+                <span class="slds-truncate" id="combobox-value-id-20"
+                  >{selectedRecord.selectedName}</span
+                >
+              </div>
+              <button
+                class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                title="Remove selected option"
+              >
+                <lightning-icon
+                  size="small"
+                  icon-name="utility:close"
+                  onclick={removalSelectionHandler}
+                ></lightning-icon>
+                <span class="slds-assistive-text">Remove selected option</span>
+              </button>
+            </div>
+          </template>
+          <template lwc:else>
+            <div
+              class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+              role="none"
+            >
+              <input
+                type="text"
+                class="slds-input slds-combobox__input slds-has-focus"
+                id="combobox-id-3"
+                aria-activedescendant="option1"
+                aria-autocomplete="list"
+                aria-controls="listbox-id-3"
+                aria-expanded="true"
+                aria-haspopup="listbox"
+                role="combobox"
+                placeholder="Search..."
+                onkeyup={changeHandler}
+              />
+              <span
+                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right"
+              >
+                <lightning-icon
+                  icon-name="utility:search"
+                  size="x-small"
+                ></lightning-icon>
+              </span>
+            </div>
+          </template>
+          <template lwc:if={displayOptions}>
+            <div
+              id="listbox-id-3"
+              class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+              role="listbox"
+              tabindex="0"
+              aria-busy="false"
+            >
+              <ul
+                class="slds-listbox slds-listbox_vertical"
+                role="presentation"
+              >
+                <template for:each={outputs.data} for:item="output">
+                  <li
+                    key={output.Id}
+                    role="presentation"
+                    class="slds-listbox__item"
+                    data-item={output.Id}
+                    onclick={clickHandler}
+                  >
+                    <div
+                      aria-selected="true"
+                      id="option232"
+                      class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus"
+                      role="option"
+                      tabindex="0"
+                    >
+                      <span
+                        class="slds-media__figure slds-listbox__option-icon"
+                      >
+                        <span
+                          class="slds-icon_container slds-icon-standard-account"
+                        >
+                          <lightning-icon
+                            icon-name={iconName}
+                            size="small"
+                          ></lightning-icon>
+                        </span>
+                      </span>
+                      <span class="slds-media__body">
+                        <span
+                          class="slds-listbox__option-text slds-listbox__option-text_entity"
+                          >{output.Name}</span
+                        >
+                        <span
+                          class="slds-listbox__option-meta slds-listbox__option-meta_entity"
+                          >{objectLabel}</span
+                        >
+                      </span>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
