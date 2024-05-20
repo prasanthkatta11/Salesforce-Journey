@@ -209,13 +209,6 @@ export default class AccountDetails extends NavigationMixin(LightningElement) {
         message: "Record Updated Successfully"
       });
       this.dispatchEvent(event);
-    } else {
-      const event = new ShowToastEvent({
-        title: "Success",
-        variant: "Success",
-        message: "Record Created Successfully"
-      });
-      this.dispatchEvent(event);
     }
   }
 }
