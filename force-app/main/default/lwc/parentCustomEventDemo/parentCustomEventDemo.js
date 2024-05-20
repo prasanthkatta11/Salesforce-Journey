@@ -1,8 +1,9 @@
-import { LightningElement } from "lwc";
+import { LightningElement, track } from "lwc";
 
 export default class ParentCustomEventDemo extends LightningElement {
-  displayMessage = false;
-  display(event) {
-    this.displayMessage = true;
+  @track displayMessage = false;
+
+  display() {
+    this.displayMessage = !this.displayMessage; // Toggle the displayMessage variable
   }
 }
