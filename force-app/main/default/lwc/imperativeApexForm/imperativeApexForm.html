@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Update With Imperative Apex">
+        <div class="slds-var-p-around_medium">
+            <lightning-input readonly="true" label="Account Name" value={accname}></lightning-input>
+            <lightning-input label="Ticker Symbol" value={accticker} onchange={changeHandler}></lightning-input>
+            <div class="slds-var-p-around_medium">
+                <lightning-button variant="brand" label="Update Record" onclick={updateTicker}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>
