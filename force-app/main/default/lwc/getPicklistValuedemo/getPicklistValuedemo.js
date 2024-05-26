@@ -8,7 +8,8 @@ import ACCOUNT_OBJECT from "@salesforce/schema/Account";
 import ACCOUNT_INDUSTRY from "@salesforce/schema/Account.Industry";
 
 export default class GetPicklistValuedemo extends LightningElement {
-  value;
+  Rating = "";
+  progress = "";
   @wire(getObjectInfo, {
     objectApiName: ACCOUNT_OBJECT
   })
@@ -40,6 +41,19 @@ export default class GetPicklistValuedemo extends LightningElement {
   //   }
 
   handleChange(event) {
-    this.value = event.target.value;
+    let { name, value } = event.target;
+    if (name === "progress") {
+      this.progress = value;
+      console.log(
+        "🚀 ~ GetPicklistValuedemo ~ handleChange ~ this.progress:",
+        this.progress
+      );
+    } else if (name === "Rating") {
+      this.Rating = value;
+      console.log(
+        "🚀 ~ GetPicklistValuedemo ~ handleChange ~ this.Rating:",
+        this.Rating
+      );
+    }
   }
 }

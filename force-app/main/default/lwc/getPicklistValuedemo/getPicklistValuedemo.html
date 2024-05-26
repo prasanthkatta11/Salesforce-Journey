@@ -1,34 +1,18 @@
 <template>
   <lightning-card title="Get Picklist Values" icon-name="custom:custom14">
     <template lwc:if={industryPicklist.data}>
-      <lightning-combobox
-        name="progress"
-        label="Industry"
-        value={value}
-        placeholder="Select Industry"
-        options={industryPicklist.data.values}
-        onchange={handleChange}
-        class="slds-var-p-around_medium"
-      ></lightning-combobox>
-      <p class="slds-var-p-around_medium">Selected value is: {value}</p>
+      <lightning-combobox name="progress" label="Industry" value={value} placeholder="Select Industry"
+        options={industryPicklist.data.values} onchange={handleChange}
+        class="slds-var-p-around_medium"></lightning-combobox>
+      <p class="slds-var-p-around_medium">Selected value is: {progress}</p>
     </template>
   </lightning-card>
-
-  <lightning-card
-    title="Get Picklist Values by RecordType"
-    icon-name="custom:custom14"
-  >
+  <lightning-card title="Get Picklist Values by RecordType" icon-name="custom:custom14">
     <template lwc:if={accountInfoFunction.data}>
-      <lightning-combobox
-        name="Rating"
-        label="Rating"
-        value={value}
-        placeholder="Select Rating"
-        options={accountInfoFunction.data.picklistFieldValues.Rating.values}
-        onchange={handleChange}
-        class="slds-var-p-around_medium"
-      ></lightning-combobox>
-      <p class="slds-var-p-around_medium">Selected value is: {value}</p>
+      <lightning-combobox name="Rating" label="Rating" value={value} placeholder="Select Rating"
+        options={accountInfoFunction.data.picklistFieldValues.Rating.values} onchange={handleChange}
+        class="slds-var-p-around_medium"></lightning-combobox>
+      <p class="slds-var-p-around_medium">Selected value is: {Rating}</p>
     </template>
   </lightning-card>
 </template>
