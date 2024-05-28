@@ -170,6 +170,18 @@ export default class AccountDetails extends NavigationMixin(LightningElement) {
             filterName: "AllAccounts"
           }
         };
+        console.log(
+          "🚀 ~ AccountDetails ~ .then ~ pageref.attributes.ACCOUNT_OBJECT.objectApiName:",
+          pageref.attributes.ACCOUNT_OBJECT.objectApiName
+        );
+        console.log(
+          "🚀 ~ AccountDetails ~ .then ~ pageref.attributes.list:",
+          pageref.attributes.list
+        );
+        console.log(
+          "🚀 ~ AccountDetails ~ .then ~ pageref.state.AllAccounts:",
+          pageref.state.AllAccounts
+        );
         this[NavigationMixin.Navigate](pageref);
       })
       .catch((error) => {
@@ -207,6 +219,13 @@ export default class AccountDetails extends NavigationMixin(LightningElement) {
         variant: "success",
 
         message: "Record Updated Successfully"
+      });
+      this.dispatchEvent(event);
+    } else {
+      const event = new ShowToastEvent({
+        title: "Success",
+        variant: "Success",
+        message: "Record Created Successfully"
       });
       this.dispatchEvent(event);
     }
