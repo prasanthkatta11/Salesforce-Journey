@@ -29,4 +29,26 @@ public with sharing class contactListController {
     ];
     return conList;
   }
+
+  @AuraEnabled(cacheable=true)
+  public static List<Contact> getcontactListBasedOnAccount(string accountId) {
+    List<Contact> conList = [
+      SELECT
+        Id,
+        Name,
+        FirstName,
+        LastName,
+        Title,
+        Phone,
+        Email,
+        Picture__c,
+        Rank__c,
+        AccountId,
+        Account.Name
+      FROM Contact
+      WHERE AccountId = :accountId
+      WITH USER_MODE
+    ];
+    return conList;
+  }
 }
