@@ -43,6 +43,7 @@ public with sharing class contactListController {
         Email,
         Picture__c,
         Rank__c,
+        LeadSource,
         AccountId,
         Account.Name
       FROM Contact
