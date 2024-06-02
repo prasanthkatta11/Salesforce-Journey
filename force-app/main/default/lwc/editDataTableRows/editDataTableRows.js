@@ -1,12 +1,17 @@
 import { LightningElement, wire, api } from "lwc";
 import getcontactListBasedOnAccount from "@salesforce/apex/ContactListController.getcontactListBasedOnAccount";
-import { updateRecord } from "lightning/uiRecordApi";
+import { deleteRecord, updateRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { refreshApex } from "@salesforce/apex";
 import { getObjectInfo, getPicklistValues } from "lightning/uiObjectInfoApi";
 import CONTACT_OBJECT from "@salesforce/schema/Contact";
 import LEADSOURCE_FIELD from "@salesforce/schema/Contact.LeadSource";
 
+const ACTIONS = [
+  { label: "View", name: "view" },
+  { label: "Edit", name: "edit" },
+  { label: "Delete", name: "delete" }
+];
 const columns = [
   { label: "First Name", fieldName: "FirstName", editable: true },
   { label: "Last Name", fieldName: "LastName", editable: true },
@@ -23,7 +28,8 @@ const columns = [
       value: { fieldName: "LeadSource" },
       context: { fieldName: "Id" }
     }
-  }
+  },
+  { type: "action", typeAttributes: { rowActions: ACTIONS } }
 ];
 
 export default class EditDataTableRows extends LightningElement {
@@ -33,6 +39,10 @@ export default class EditDataTableRows extends LightningElement {
   draftValues = [];
   contactRefresh;
   leadSourceOptions = [];
+  viewMode = false;
+  editMode = false;
+  showModal = false;
+  selectedRecordId;
 
   @wire(getcontactListBasedOnAccount, {
     accountId: "$recordId",
@@ -123,5 +133,42 @@ export default class EditDataTableRows extends LightningElement {
       variant: "success"
     });
     this.dispatchEvent(toastEvent);
+  }
+
+  rowActionHandler(event) {
+    let action = event.detail.action;
+    let row = event.detail.row;
+    this.viewMode = false;
+    this.editMode = false;
+    this.showModal = false;
+    this.selectedRecordId = row.Id;
+
+    if (action.name === "view") {
+      this.viewMode = true;
+      this.showModal = true;
+    } else if (action.name === "edit") {
+      this.editMode = true;
+      this.showModal = true;
+    } else if (action.name === "delete") {
+      this.deleteHandler();
+    }
+  }
+
+  async deleteHandler() {
+    await deleteRecord(this.selectedRecordId);
+    const event = new ShowToastEvent({
+      title: "success",
+      message: "Record deleted Successfully",
+      variant: "success"
+    });
+    this.dispatchEvent(event);
+    await refreshApex(this.contactRefresh);
+  }
+
+  async closeModal() {
+    this.showModal = false;
+    if (this.editMode) {
+      await refreshApex(this.contactRefresh);
+    }
   }
 }
