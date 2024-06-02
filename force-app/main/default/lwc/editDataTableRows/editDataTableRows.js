@@ -12,22 +12,52 @@ const ACTIONS = [
   { label: "Edit", name: "edit" },
   { label: "Delete", name: "delete" }
 ];
+const defaultActions = [{ label: "All", checked: true, name: "all" }];
 const columns = [
-  { label: "First Name", fieldName: "FirstName", editable: true },
-  { label: "Last Name", fieldName: "LastName", editable: true },
-  { label: "Title", fieldName: "Title", editable: true },
-  { label: "Email", fieldName: "Email", type: "email", editable: true },
-  { label: "Phone", fieldName: "Phone", type: "phone", editable: true },
+  {
+    label: "First Name",
+    fieldName: "FirstName",
+    editable: true,
+    hideDefaultActions: true
+  },
+  {
+    label: "Last Name",
+    fieldName: "LastName",
+    editable: true,
+    hideDefaultActions: true
+  },
+  {
+    label: "Title",
+    fieldName: "Title",
+    editable: true,
+    hideDefaultActions: true
+  },
+  {
+    label: "Email",
+    fieldName: "Email",
+    type: "email",
+    editable: true,
+    hideDefaultActions: true
+  },
+  {
+    label: "Phone",
+    fieldName: "Phone",
+    type: "phone",
+    editable: true,
+    hideDefaultActions: true
+  },
   {
     label: "Lead Source",
     fieldName: "LeadSource",
     type: "customPickList",
     editable: true,
+    hideDefaultActions: true,
     typeAttributes: {
       options: { fieldName: "pickListOptions" },
       value: { fieldName: "LeadSource" },
       context: { fieldName: "Id" }
-    }
+    },
+    actions: defaultActions
   },
   { type: "action", typeAttributes: { rowActions: ACTIONS } }
 ];
@@ -43,6 +73,9 @@ export default class EditDataTableRows extends LightningElement {
   editMode = false;
   showModal = false;
   selectedRecordId;
+  leadSourceActions = [];
+  loadCompletedActions = false;
+  contactAllData = [];
 
   @wire(getcontactListBasedOnAccount, {
     accountId: "$recordId",
@@ -57,18 +90,18 @@ export default class EditDataTableRows extends LightningElement {
       );
       // this.contactData = result.data;
       this.contactData = result.data.map((currItem) => {
-        // let pickListOptions = this.leadSourceOptions;
+        let pickListOptions = this.leadSourceOptions;
         return {
           ...currItem,
-          pickListOptions: this.leadSourceOptions
+          pickListOptions: pickListOptions
         };
       });
       console.log(
         "🚀 ~ EditDataTableRows ~ this.contactData=result.data.map ~ this.contactData:",
         this.contactData
       );
-    }
-    if (result.error) {
+      this.contactAllData = [...this.contactData];
+    } else if (result.error) {
       console.log(
         "🚀 ~ EditDataTableRows ~ getContactOutput ~ error:",
         result.error
@@ -89,8 +122,21 @@ export default class EditDataTableRows extends LightningElement {
     if (data) {
       this.leadSourceOptions = data.values;
       console.log("🚀 ~ EditDataTableRows ~ wirePicklist ~ data:", data);
-    }
-    if (error) {
+      this.leadSourceActions = [];
+      data.values.forEach((currItem) => {
+        this.leadSourceActions.push({
+          label: currItem.label,
+          checked: false,
+          name: currItem.value
+        });
+      });
+      this.columns.forEach((currItem) => {
+        if (currItem.fieldName === "LeadSource") {
+          currItem.actions = [...currItem.actions, ...this.leadSourceActions];
+        }
+      });
+      this.loadCompletedActions = true;
+    } else if (error) {
       console.log("🚀 ~ EditDataTableRows ~ wirePicklist ~ error:", error);
     }
   }
@@ -169,6 +215,44 @@ export default class EditDataTableRows extends LightningElement {
     this.showModal = false;
     if (this.editMode) {
       await refreshApex(this.contactRefresh);
+    }
+  }
+
+  headerActionHandler(event) {
+    let actionName = event.detail.action.name;
+    console.log(
+      "🚀 ~ EditDataTableRows ~ headerActionHandler ~ actionName:",
+      actionName
+    );
+    const colDef = event.detail.columnDefinition;
+    console.log(
+      "🚀 ~ EditDataTableRows ~ headerActionHandler ~ colDef:",
+      JSON.stringify(colDef)
+    );
+
+    const cols = [...this.columns];
+    if (actionName === "all") {
+      this.contactData = [...this.contactAllData];
+    } else {
+      this.contactData = this.contactAllData.filter(
+        (currItem) => actionName === currItem.LeadSource
+      );
+    }
+    cols
+      .find((currItem) => currItem.fieldName === "LeadSource")
+      .actions.forEach((currItem) => {
+        if (currItem.name === actionName) {
+          currItem.checked = true;
+        }
+      });
+    this.columns = [...cols];
+  }
+
+  get displayData() {
+    if (this.contactData && this.loadCompletedActions === true) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
