@@ -1,12 +1,20 @@
 <template>
-    <template lwc:if={displayData}>
-        <c-custom-data-type key-field="Id" data={contactData} columns={columns} onsave={saveHandler}
-            draft-values={draftValues} onrowaction={rowActionHandler} onheaderaction={headerActionHandler}>
-        </c-custom-data-type>
-        <template lwc:if={showModal}>
-            <c-custom-modal-for-data-table is-display-mode={viewMode} is-edit-mode={editMode}
-                record-input-id={selectedRecordId} onclosemodal={closeModal}></c-custom-modal-for-data-table>
-            </c-custom-modal-for-data-table>
+    <lightning-card title="Datatable Series" icon-name="custom:custom14">
+        <div class="slds-var-p-around_small">
+            <lightning-button label="Delete Mutiple Records" variant="destructive" onclick={deleteRecordsHandler}
+                disabled={disableMe}>
+            </lightning-button>
+        </div>
+        <template lwc:if={displayData}>
+            <c-custom-data-type key-field="Id" data={contactData} columns={columns} onsave={saveHandler}
+                draft-values={draftValues} onrowaction={rowActionHandler} onheaderaction={headerActionHandler}
+                onrowselection={selectRowsHandler}>
+            </c-custom-data-type>
+            <template lwc:if={showModal}>
+                <c-custom-modal-for-data-table is-display-mode={viewMode} is-edit-mode={editMode}
+                    record-input-id={selectedRecordId} onclosemodal={closeModal}></c-custom-modal-for-data-table>
+                </c-custom-modal-for-data-table>
+            </template>
         </template>
-    </template>
+    </lightning-card>
 </template>

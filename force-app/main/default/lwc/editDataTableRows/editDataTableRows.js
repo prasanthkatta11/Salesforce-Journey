@@ -59,6 +59,20 @@ const columns = [
     },
     actions: defaultActions
   },
+  {
+    label: "Case Count",
+    fieldName: "numberOfCases",
+    type: "number",
+    editable: false,
+    hideDefaultActions: true
+  },
+  {
+    label: "Is Bad Contact",
+    fieldName: "isBadContact",
+    type: "boolean",
+    editable: false,
+    hideDefaultActions: true
+  },
   { type: "action", typeAttributes: { rowActions: ACTIONS } }
 ];
 
@@ -76,6 +90,7 @@ export default class EditDataTableRows extends LightningElement {
   leadSourceActions = [];
   loadCompletedActions = false;
   contactAllData = [];
+  disableMe = true;
 
   @wire(getcontactListBasedOnAccount, {
     accountId: "$recordId",
@@ -243,6 +258,8 @@ export default class EditDataTableRows extends LightningElement {
       .actions.forEach((currItem) => {
         if (currItem.name === actionName) {
           currItem.checked = true;
+        } else {
+          currItem.checked = false;
         }
       });
     this.columns = [...cols];
@@ -253,6 +270,63 @@ export default class EditDataTableRows extends LightningElement {
       return true;
     } else {
       return false;
+    }
+  }
+
+  selectRowsHandler(event) {
+    const selectedRows = event.detail.selectedRows;
+    if (selectedRows.length > 0) {
+      this.disableMe = false;
+    } else {
+      this.disableMe = true;
+    }
+  }
+
+  async deleteRecordsHandler() {
+    let selectedRows = this.template
+      .querySelector("c-custom-data-type")
+      .getSelectedRows();
+
+    let allGoodRecords = true;
+
+    let selectedRecordsHaveCases = selectedRows.filter(
+      (currItem) => currItem.numberOfCases > 0
+    );
+
+    if (selectedRecordsHaveCases.length > 0) {
+      allGoodRecords = false;
+    }
+
+    if (allGoodRecords) {
+      let deleteRecordsPerm = selectedRows
+        .filter((currItem) => currItem.numberOfCases === 0)
+        .map((currItem) => deleteRecord(currItem.Id));
+
+      try {
+        await Promise.all(deleteRecordsPerm);
+        await refreshApex(this.contactRefresh);
+        const toastEvent = new ShowToastEvent({
+          title: "Success",
+          message: "Records Deleted Successfully",
+          variant: "success"
+        });
+        this.dispatchEvent(toastEvent);
+        this.template.querySelector("c-custom-data-type").SelectedRows = [];
+      } catch (e) {
+        const toastEvent = new ShowToastEvent({
+          title: "Error",
+          message: "Records deletion failed " + e.body.message,
+          variant: "error"
+        });
+        this.dispatchEvent(toastEvent);
+      }
+    } else {
+      const toastEvent = new ShowToastEvent({
+        title: "Error",
+        message: "Records with cases cannot be deleted",
+        variant: "error"
+      });
+      this.dispatchEvent(toastEvent);
     }
   }
 }
