@@ -1,0 +1,35 @@
+<template>
+    <!--Filter Section-->
+    <div class="filterstyle">
+        <lightning-layout horizontal-align="center">
+            <lightning-layout-item padding="around-small" size="3">
+                <lightning-combobox name="type" label="Type" value={selectedType} placeholder="Select Type"
+                    options={typeOptions} onchange={handleChange}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="7">
+                <lightning-input name="search" label="Enter Search Item" placeholder="Search for Movie/Series"
+                    is-loading={loading} type="search" onchange={handleChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="2">
+                <lightning-input type="number" name="pagenumber" label="Page" value={selectedPageNumber}
+                    onchange={handleChange} field-level-help="Range 1-100" min="1" max="100" step="1"
+                    message-when-range-underflow="Minimum value is 1"
+                    message-when-range-overflow="Maximum value is 100"></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    <template lwc:if={displaySearchResult}>
+        <!--Display Section-->
+        <div class="slds-var-m-top_large slds-scrollable_y display slds-box">
+            <lightning-layout horizontal-align="center" multiple-rows="true">
+                <template for:each={searchResult} for:item="searchItem">
+                    <lightning-layout-item size="3" key={searchItem.imdbID} padding="around-small">
+                        <c-movie-tile movie={searchItem} onselectedmovie={movieSelectedHandler}
+                            selected-movie-id={selectedMovie}></c-movie-tile>
+                        </c-movie-tile>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </div>
+    </template>
+</template>
