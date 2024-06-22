@@ -1,0 +1,32 @@
+/* Styles for the modal */
+.slds-modal__container {
+  width: 50%;
+  max-width: 600px;
+}
+
+.slds-modal__header {
+  background-color: #f4f6f9;
+  border-bottom: 1px solid #d8dde6;
+  padding: 1rem;
+}
+
+.slds-text-heading_medium {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Styles for the first name and last name fields */
+.lightning-flow input[name="FirstName"],
+.lightning-flow input[name="LastName"] {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #d8dde6;
+  border-radius: 4px;
+}
+
+.lightning-flow input[name="FirstName"]:focus,
+.lightning-flow input[name="LastName"]:focus {
+  border-color: #0070d2;
+  box-shadow: 0 0 3px #0070d2;
+}
