@@ -1,0 +1,21 @@
+<aura:component
+    implements="lightning:actionOverride,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction">
+
+    <aura:attribute name="isModalOpen" type="Boolean" default="true" />
+    <aura:attribute name="isActionOverride" type="Boolean" default="false" />
+    <aura:attribute name="isGlobalAction" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:if isTrue="{!v.isActionOverride}">
+        <!-- Display modal for action override -->
+        <c:createContactModal is-modal-open="{!v.isModalOpen}" onclosemodal="{!c.handleCloseModal}" />
+        <lightning:listView aura:id="listViewContacts" objectApiName="Contact" listName="AllContacts" rows="100"
+            showSearchBar="true" showActionBar="true" enableInlineEdit="true" showRowLevelActions="true" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.isGlobalAction}">
+        <!-- Display in default window for global action -->
+        <c:createContactModal is-modal-open="{!v.isModalOpen}" onclosemodal="{!c.handleCloseModal}" />
+    </aura:if>
+</aura:component>

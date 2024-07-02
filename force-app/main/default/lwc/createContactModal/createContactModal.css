@@ -30,3 +30,23 @@
   border-color: #0070d2;
   box-shadow: 0 0 3px #0070d2;
 }
+
+/* LWC CSS */
+.slds-backdrop {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ) !important; /* Adjust opacity as needed */
+}
+
+/* Aura CSS (add to your Aura component's CSS) */
+.slds-backdrop {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ) !important; /* Adjust opacity as needed */
+}

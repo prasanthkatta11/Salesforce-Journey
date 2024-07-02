@@ -14,3 +14,5 @@ for (List<Contact> conList : [
   }
   update conList;
 }
+
+DeleteAccountsWithNoContacts.deleteAccountsWithNoContacts();

@@ -1,5 +1,5 @@
 import { LightningElement, wire } from "lwc";
-import getcontactListDataTable from "@salesforce/apex/ContactListController.getcontactListDataTable";
+import getcontactListDataTable from "@salesforce/apex/contactListController.getcontactListDataTable";
 const columns = [
   {
     label: "Name",

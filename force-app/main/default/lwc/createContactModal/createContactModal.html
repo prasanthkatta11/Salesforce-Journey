@@ -1,5 +1,4 @@
 <template>
-    <lightning-button label="Quick Contact Creation" onclick={openModal}></lightning-button>
     <template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
@@ -14,10 +13,16 @@
                 </header>
                 <div class="slds-modal__content slds-var-p-around_medium">
                     <lightning-flow flow-api-name="Create_contact_related_to_Account"
-                        flow-input-variables={flowInputVariables} onstatuschange={handleStatusChange}></lightning-flow>
+                        onstatuschange={handleStatusChange}></lightning-flow>
                 </div>
             </div>
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:false={isModalOpen}>
+        <div class="slds-var-p-around_medium">
+            <lightning-flow flow-api-name="Create_contact_related_to_Account"
+                onstatuschange={handleStatusChange}></lightning-flow>
+        </div>
     </template>
 </template>

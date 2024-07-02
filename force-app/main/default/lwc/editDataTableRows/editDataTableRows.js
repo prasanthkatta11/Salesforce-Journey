@@ -1,5 +1,5 @@
 import { LightningElement, wire, api } from "lwc";
-import getcontactListBasedOnAccount from "@salesforce/apex/ContactListController.getcontactListBasedOnAccount";
+import getcontactListBasedOnAccount from "@salesforce/apex/contactListController.getcontactListBasedOnAccount";
 import { deleteRecord, updateRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { refreshApex } from "@salesforce/apex";

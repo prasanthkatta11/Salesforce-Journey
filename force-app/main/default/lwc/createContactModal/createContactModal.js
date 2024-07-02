@@ -1,29 +1,17 @@
 import { LightningElement, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { NavigationMixin } from "lightning/navigation";
 
-export default class CreateContactModal extends LightningElement {
-  @api recordId;
-  isModalOpen = false;
-
-  get flowInputVariables() {
-    return [
-      {
-        name: "varAccoundId",
-        type: "String",
-        value: this.recordId
-      }
-    ];
-  }
-
-  openModal() {
-    this.isModalOpen = true;
-  }
+export default class CreateContactModal extends NavigationMixin(
+  LightningElement
+) {
+  @api isModalOpen;
 
   closeModal() {
-    this.isModalOpen = false;
+    this.dispatchEvent(new CustomEvent("closemodal"));
   }
 
-  handleStatusChange(event) {
+  async handleStatusChange(event) {
     if (event.detail.status === "FINISHED") {
       const outputVariables = event.detail.outputVariables;
       let contactId;
@@ -41,6 +29,16 @@ export default class CreateContactModal extends LightningElement {
             variant: "success"
           })
         );
+
+        // Navigate to the newly created record
+        await this[NavigationMixin.Navigate]({
+          type: "standard__recordPage",
+          attributes: {
+            recordId: contactId,
+            objectApiName: "Contact",
+            actionName: "view"
+          }
+        });
       } else {
         this.dispatchEvent(
           new ShowToastEvent({
@@ -49,7 +47,7 @@ export default class CreateContactModal extends LightningElement {
           })
         );
       }
-      this.isModalOpen = false;
+      this.dispatchEvent(new CustomEvent("closemodal"));
     }
   }
 }
