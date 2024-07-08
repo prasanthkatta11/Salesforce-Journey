@@ -16,3 +16,19 @@ for (List<Contact> conList : [
 }
 
 DeleteAccountsWithNoContacts.deleteAccountsWithNoContacts();
+
+List<Account> accounts = [
+  SELECT Id, Name, Count_Of_Contacts__c
+  FROM Account
+  LIMIT 10
+];
+
+Set<Id> accIds = new Set<Id>();
+for (Account acc : accounts) {
+  accIds.add(acc.Id);
+}
+
+AccountContactsCount.countOfContacts(accIds);
+
+OppoProcessor oppProcess = new OppoProcessor();
+Id BatchId = Database.executeBatch(oppProcess, 5);
