@@ -32,3 +32,19 @@ AccountContactsCount.countOfContacts(accIds);
 
 OppoProcessor oppProcess = new OppoProcessor();
 Id BatchId = Database.executeBatch(oppProcess, 5);
+
+List<Account> accList = [
+  SELECT Id, Name
+  FROM Account
+  WHERE BillingState = 'NY'
+];
+
+Id parentAccId = [
+  SELECT Id
+  FROM Account
+  WHERE Name = 'Parent Account'
+]
+.id;
+
+parentAccountQueUpdate que = new parentAccountQueUpdate(accList, parentAccId);
+Id jobId = System.enqueueJob(que);

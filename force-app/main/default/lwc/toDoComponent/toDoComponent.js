@@ -139,12 +139,12 @@ export default class ToDoComponent extends LightningElement {
     return isValid;
   }
 
-  sortTask(inputArr) {
-    let sortedArray = inputArr.sort(
-      (a, b) => new Date(a.taskdate) - new Date(b.taskdate)
-    );
-    return sortedArray;
-  }
+  // sortTask(inputArr) {
+  //   let sortedArray = inputArr.sort(
+  //     (a, b) => new Date(a.taskdate) - new Date(b.taskdate)
+  //   );
+  //   return sortedArray;
+  // }
 
   removeHandler(event) {
     //Remove from incomplete task array
