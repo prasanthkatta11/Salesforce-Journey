@@ -3,7 +3,6 @@ import { LightningElement, api } from "lwc";
 export default class JoinNameChild extends LightningElement {
   @api firstName;
   @api lastName;
-  @api fullName;
 
   combineNames() {
     const fullName = `${this.firstName.toUpperCase()} ${this.lastName.toUpperCase()}`;

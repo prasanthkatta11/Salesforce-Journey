@@ -1,28 +1,20 @@
 <template>
   <lightning-card title="Parent Component">
     <div class="slds-var-p-around_medium">
-      <lightning-input
-        label="First Name"
-        name="firstname"
-        value={firstName}
-        onchange={handleInputField}
-      >
+      <lightning-input label="First Name"
+        name="firstname" value={firstName}
+        onchange={handleInputField}>
       </lightning-input>
-      <lightning-input
-        label="Last Name"
-        name="lastname"
-        value={lastName}
-        onchange={handleInputField}
-      >
+      <lightning-input label="Last Name"
+        name="lastname" value={lastName}
+        onchange={handleInputField}>
       </lightning-input>
-      <c-join-name-child
-        first-name={firstName}
+      <c-join-name-child first-name={firstName}
         last-name={lastName}
-        full-name={fullName}
-        oncombine={handleCombine}
-      ></c-join-name-child>
+        oncombine={handleCombine}></c-join-name-child>
       <template lwc:if={showOutput}>
-        <div class="slds-var-m-vertical_xxx-small">
+        <div
+          class="slds-var-m-vertical_xxx-small">
           <p>Output: {fullName}</p>
         </div>
       </template>
